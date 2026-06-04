@@ -11,6 +11,10 @@
   --text-muted: #f4d0e8;
   --accent: #ff75c3;
   --accent-strong: #ff2a85;
+
+  /* 【新規追加】カードセクション専用のネオンイエロー変数 */
+  --card-accent: #ffe600;        /* 鮮やかなネオンイエロー */
+  --card-border: rgba(255, 230, 0, 0.25); /* 黄色の透過ボーダー */
 }
 
 body {
@@ -39,22 +43,18 @@ header {
   margin-bottom: 48px;
 }
 
-/* 【アニメーション追加】YEAR PROGRESS のタイトル */
 h1 {
   font-size: clamp(2.2rem, 4vw, 3rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 12px;
   color: #fff;
-  /* ピンクの強力なネオン発光エフェクト */
   text-shadow: 
     0 0 7px #fff,
     0 0 10px #fff,
     0 0 21px var(--accent-strong),
     0 0 42px var(--accent-strong),
     0 0 82px var(--accent-strong);
-  
-  /* ネオンがチカチカと不規則に瞬くアニメーション（永久ループ） */
   animation: neonFlicker 3s infinite alternate;
 }
 
@@ -70,13 +70,14 @@ h1 {
   margin-bottom: 48px;
 }
 
+/* 【修正】カードの背景とボーダーを黄色ベースに変更 */
 .card {
-  background: linear-gradient(135deg, rgba(255, 42, 133, 0.12), rgba(255, 117, 195, 0.12));
+  background: linear-gradient(135deg, rgba(255, 230, 0, 0.07), rgba(255, 183, 0, 0.07));
   border-radius: 24px;
   padding: 40px 32px;
   text-align: center;
-  border: 1px solid var(--border);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
   transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
   animation: cardFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -85,27 +86,32 @@ h1 {
   animation-delay: 0.15s;
 }
 
+/* 【修正】ホバー時の発光をネオンイエローに */
 .card:hover {
   transform: translateY(-6px);
-  border-color: rgba(255, 117, 195, 0.8);
-  box-shadow: 0 25px 45px rgba(255, 42, 133, 0.25);
+  border-color: rgba(255, 230, 0, 0.8);
+  box-shadow: 0 25px 45px rgba(255, 230, 0, 0.2);
 }
 
+/* 【修正】カード内の見出しの文字色を黄色に馴染む淡いクリーム色に */
 .card h2 {
   font-size: 0.95rem;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: #ffeef8;
   letter-spacing: 0.2em;
   margin-bottom: 18px;
+  opacity: 0.8;
 }
 
+/* 【修正】数字のカラーをネオンイエローに変更 */
 .card .value {
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 600;
-  color: var(--accent);
+  color: var(--card-accent);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-shadow: 0 0 12px rgba(255, 230, 0, 0.3); /* 数字自体にも微細な発光を追加 */
   animation: valuePop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   animation-delay: 0.4s;
 }
@@ -114,13 +120,14 @@ h1 {
   font-size: 0.85rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: #ffeef8;
+  opacity: 0.8;
 }
 
 .value-emphasis {
   font-size: clamp(2rem, 5vw, 2.6rem);
   font-weight: 600;
-  color: var(--accent);
+  color: var(--card-accent);
 }
 
 .progress-bar-section {
@@ -172,8 +179,6 @@ h1 {
 }
 
 /* --- アニメーション定義 --- */
-
-/* タイトルのネオン点滅（チカチカ）効果 */
 @keyframes neonFlicker {
   0%, 18%, 22%, 25%, 53%, 57%, 100% {
     text-shadow:
@@ -184,7 +189,6 @@ h1 {
       0 0 80px var(--accent-strong);
   }
   20%, 24%, 55% {
-    /* 一瞬だけ発光を弱くして、リアルな古い電光掲示板のチカチカ感を出す */
     text-shadow: 
       0 0 2px #fff,
       0 0 4px #fff,
