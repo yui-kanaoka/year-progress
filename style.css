@@ -39,12 +39,23 @@ header {
   margin-bottom: 48px;
 }
 
+/* 【アニメーション追加】YEAR PROGRESS のタイトル */
 h1 {
   font-size: clamp(2.2rem, 4vw, 3rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 12px;
-  text-shadow: 0 0 20px rgba(255, 42, 133, 0.2);
+  color: #fff;
+  /* ピンクの強力なネオン発光エフェクト */
+  text-shadow: 
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px var(--accent-strong),
+    0 0 42px var(--accent-strong),
+    0 0 82px var(--accent-strong);
+  
+  /* ネオンがチカチカと不規則に瞬くアニメーション（永久ループ） */
+  animation: neonFlicker 3s infinite alternate;
 }
 
 .subtitle {
@@ -52,9 +63,6 @@ h1 {
   color: var(--text-muted);
 }
 
-/* * 【修正】カードの並びを2列（横並び）に固定
- * カードが3つの場合は repeat(3, 1fr) に変更してください
- */
 .cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -70,12 +78,9 @@ h1 {
   border: 1px solid var(--border);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
   transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-  
-  /* カード自体が下からふわっと現れる初期アニメーション */
   animation: cardFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* 2番目のカード（終了率など）の出現をわずかに遅らせて心地よいリズムに */
 .cards .card:nth-child(2) {
   animation-delay: 0.15s;
 }
@@ -94,7 +99,6 @@ h1 {
   margin-bottom: 18px;
 }
 
-/* 【アニメーション追加】数字（値）部分の演出 */
 .card .value {
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 600;
@@ -102,10 +106,8 @@ h1 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  
-  /* 数字が拡大しながらクッキリ現れるアニメーション */
   animation: valuePop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  animation-delay: 0.4s; /* カードが表示された後に動かす */
+  animation-delay: 0.4s;
 }
 
 .value-label {
@@ -169,7 +171,28 @@ h1 {
   }
 }
 
-/* カードフェードイン用のアニメーション定義 */
+/* --- アニメーション定義 --- */
+
+/* タイトルのネオン点滅（チカチカ）効果 */
+@keyframes neonFlicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow:
+      0 0 4px #fff,
+      0 0 11px #fff,
+      0 0 19px var(--accent-strong),
+      0 0 40px var(--accent-strong),
+      0 0 80px var(--accent-strong);
+  }
+  20%, 24%, 55% {
+    /* 一瞬だけ発光を弱くして、リアルな古い電光掲示板のチカチカ感を出す */
+    text-shadow: 
+      0 0 2px #fff,
+      0 0 4px #fff,
+      0 0 10px var(--accent-strong);
+    opacity: 0.8;
+  }
+}
+
 @keyframes cardFadeIn {
   0% {
     opacity: 0;
@@ -181,7 +204,6 @@ h1 {
   }
 }
 
-/* 数字がポンッと弾けるように現れるアニメーション定義 */
 @keyframes valuePop {
   0% {
     opacity: 0;
@@ -271,7 +293,6 @@ footer p {
     border-radius: 22px;
   }
 
-  /* 【修正】スマホ画面（幅768px以下）では窮屈にならないよう1列（縦並び）にスイッチ */
   .cards {
     grid-template-columns: 1fr;
   }
