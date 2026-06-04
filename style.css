@@ -5,18 +5,16 @@
 }
 
 :root {
-  /* ピンクテーマに合わせた変数調整 */
   --surface: rgba(255, 255, 255, 0.06);
-  --border: rgba(255, 105, 180, 0.2); /* ピンクの透過ボーダー */
-  --text-main: #fff0f5; /* ラベンダーブラッシュ（ほんのりピンクがかった白） */
-  --text-muted: #f4d0e8; /* くすんだライトピンク */
-  --accent: #ff75c3; /* メインの鮮やかなピンク */
-  --accent-strong: #ff2a85; /* より強いネオンピンク */
+  --border: rgba(255, 105, 180, 0.2);
+  --text-main: #fff0f5;
+  --text-muted: #f4d0e8;
+  --accent: #ff75c3;
+  --accent-strong: #ff2a85;
 }
 
 body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  /* 背景を深いディープパープルから黒へのグラデーションに変更し、ピンクを際立たせる */
   background: radial-gradient(circle at top, #240b1c, #090207);
   color: var(--text-main);
   line-height: 1.6;
@@ -28,7 +26,6 @@ body {
 }
 
 .container {
-  /* コンテナの背景を少し赤みのあるディープシャドウに */
   background: rgba(18, 5, 14, 0.7);
   border-radius: 28px;
   padding: 48px;
@@ -47,7 +44,6 @@ h1 {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 12px;
-  /* タイトルにほのかなピンクの発光エフェクト */
   text-shadow: 0 0 20px rgba(255, 42, 133, 0.2);
 }
 
@@ -56,15 +52,17 @@ h1 {
   color: var(--text-muted);
 }
 
+/* * 【修正】カードの並びを2列（横並び）に固定
+ * カードが3つの場合は repeat(3, 1fr) に変更してください
+ */
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 28px;
   margin-bottom: 48px;
 }
 
 .card {
-  /* カードのグラデーションをピンク・マゼンタ系に変更 */
   background: linear-gradient(135deg, rgba(255, 42, 133, 0.12), rgba(255, 117, 195, 0.12));
   border-radius: 24px;
   padding: 40px 32px;
@@ -72,11 +70,18 @@ h1 {
   border: 1px solid var(--border);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
   transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+  
+  /* カード自体が下からふわっと現れる初期アニメーション */
+  animation: cardFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* 2番目のカード（終了率など）の出現をわずかに遅らせて心地よいリズムに */
+.cards .card:nth-child(2) {
+  animation-delay: 0.15s;
 }
 
 .card:hover {
   transform: translateY(-6px);
-  /* ホバー時は鮮やかなピンクに発光 */
   border-color: rgba(255, 117, 195, 0.8);
   box-shadow: 0 25px 45px rgba(255, 42, 133, 0.25);
 }
@@ -89,6 +94,7 @@ h1 {
   margin-bottom: 18px;
 }
 
+/* 【アニメーション追加】数字（値）部分の演出 */
 .card .value {
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 600;
@@ -96,6 +102,10 @@ h1 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  
+  /* 数字が拡大しながらクッキリ現れるアニメーション */
+  animation: valuePop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: 0.4s; /* カードが表示された後に動かす */
 }
 
 .value-label {
@@ -127,11 +137,9 @@ h1 {
 
 .progress-bar-fill {
   height: 100%;
-  /* プログレスバーを濃厚なピンクのグラデーションに */
   background: linear-gradient(90deg, var(--accent-strong), var(--accent));
   border-radius: 12px;
   transition: width 1s ease-out;
-  /* グロー効果をピンクに変更 */
   box-shadow: 0 0 20px rgba(255, 117, 195, 0.5);
   position: relative;
 }
@@ -158,6 +166,32 @@ h1 {
   }
   100% {
     transform: translateX(100%);
+  }
+}
+
+/* カードフェードイン用のアニメーション定義 */
+@keyframes cardFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 数字がポンッと弾けるように現れるアニメーション定義 */
+@keyframes valuePop {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
   }
 }
 
@@ -235,6 +269,11 @@ footer p {
   .container {
     padding: 32px 24px;
     border-radius: 22px;
+  }
+
+  /* 【修正】スマホ画面（幅768px以下）では窮屈にならないよう1列（縦並び）にスイッチ */
+  .cards {
+    grid-template-columns: 1fr;
   }
 
   .info {
